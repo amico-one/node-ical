@@ -591,7 +591,16 @@ module.exports = {
       if ((value === 'VEVENT' || value === 'VTODO' || value === 'VJOURNAL') && curr.rrule) {
         let rule = curr.rrule.replace('RRULE:', '');
         // Make sure the rrule starts with FREQ=
+        let filteredRule = rule;
         rule = rule.slice(rule.lastIndexOf('FREQ='));
+        if(!rule.includes('UNTIL=') && filteredRule.includes('UNTIL=')){
+          const untilMatches = filteredRule.match(/UNTIL=[^;]+/g);
+          if (untilMatches && untilMatches.length > 0) {
+            const lastUntil = untilMatches[untilMatches.length - 1];
+            rule += lastUntil;
+          }
+        }
+
         // If no rule start date
         if (rule.includes('DTSTART') === false) {
           // This a whole day event
