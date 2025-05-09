@@ -643,7 +643,7 @@ module.exports = {
 
         // Make sure to catch error from rrule.fromString()
         try {
-          curr.rrule = rrule.fromString(rule);
+          curr.rrule = rrule.fromString(rule.split(';').filter(r => r.trim() !=='').join(';'));
         } catch (error) {
           throw error;
         }
