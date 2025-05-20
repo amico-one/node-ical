@@ -601,6 +601,17 @@ module.exports = {
           }
         }
 
+        if(!rule.includes('UNTIL=') && !rule.includes('COUNT=')){
+          const date = new Date();
+                date.setFullYear(date.getFullYear() + 5);  // Add 5 years
+
+          const formatted = date.toISOString()
+            .replace(/[-:]/g, '')           // Remove dashes and colons
+            .replace(/\.\d+Z$/, 'Z');
+
+            rule += `;UNTIL=${formatted}`;
+        }
+
         // If no rule start date
         if (rule.includes('DTSTART') === false) {
           // This a whole day event
